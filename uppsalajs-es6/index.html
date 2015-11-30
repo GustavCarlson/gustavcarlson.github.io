@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>ES2015, 2016 and beyond</title>
+
+		<meta name="description" content="A Rapid, Birds-eye introduction to ESNext Features">
+		<meta name="author" content="Gustav Carlson">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/uppsalajs.css" id="theme">
+
+        <link href='https://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/uppsalajs.css">
+	</head>
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section class="center">
+					<h1>ES2015</h1>
+					<h2>Some good parts™</h2>
+                    <p>Gustav Carlson, Monator Technologies</p>
+					<p>
+						<small>Powered By <a href="https://github.com/hakimel/reveal.js">reveal.js</a></small>
+					</p>
+				</section>
+
+				<section class="center">
+                    <img src="img/twitter_usage.png"/>
+				</section>
+
+				<section class="center">
+					<h2 style="text-align: left">"Metrics"</h2>
+                    <div class="flexcontainer">
+    					<div class="flexitem">
+                            <img src="img/ES5cover.png"/>
+                            <p class="fragment centered" style="line-height:2.2em">258 pages</p>
+                        </div>
+    					<div class="flexitem">
+                            <img src="img/ES2015cover.png"/>
+                            <p class="fragment centered" style="font-size:2.2em">566 pages</p>
+                        </div>
+                    </div>
+                    <h1 class="fragment centered">120% More Awesome!</h1>
+				</section>
+
+				<section>
+					<h2>Standardization process</h2>
+					<p>Six years between releases is too long</p>
+					<p>Steering committee (TC39) to adopt yearly release cycle</p>
+                    <p>See excellent roundup at <a href="http://www.2ality.com/2015/11/tc39-process.html">
+                        http://www.2ality.com/2015/11/tc39-process.html
+                    </a></p>
+				</section>
+
+				<section>
+					<h2>Current situation</h2>
+                    <p>
+                        <a href="https://kangax.github.io/compat-table/es6/">https://kangax.github.io/compat-table/es6/</a>
+                    </p>
+                    <img src="img/es6compat.png" style="overflow"/>
+				</section>
+
+				<section>
+					<h2>The Future is Now</h2>
+                    <p>
+                        <a href="https://babeljs.io/">https://babeljs.io/</a>
+                    </p>
+                    <img src="img/babeljs.png" style="overflow"/>
+				</section>
+
+				<section class="center">
+                    <h1><span class="code">'use strict';</span></h1>
+                    <!--
+					<h2>Overview</h2>
+					<h3>Sorted by <em>granularity of impact</em></h3>
+					<p>That is, roughly: stuff that changes our</p>
+                    <ul>
+                        <li>Project organization</li>
+    					<li>Module designs</li>
+    					<li>Large-scale idioms</li>
+    					<li>...</li>
+    					<li>One-liners</li>
+                    </ul>
+                -->
+                </section>
+
+
+
+				<section>
+					<h2>Block Scoped Variables</h2>
+                    <p>In ES5 variables are function-scoped</p>
+                    <p>ES2015 introduces two new declaration types:</p>
+                    <p><span class="code key">let</span> for block-scoped variables</p>
+                    <p><span class="code key">const</span> for block-scoped, write-once variables</p>
+				</section>
+
+				<section>
+					<h2>Block Scoped Variables</h2>
+                    <pre><code class="hljs" data-trim>
+let a = 'The outer a';
+
+if (someCondition) {
+    let a = 'Another a!';
+    const b = 'I exist!';
+    ...
+}
+
+a === 'The outer a';
+//b not defined here!
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Block Scoped Variables</h2>
+                    <p>Function declarations are block scoped</p>
+                    <pre><code class="hljs" data-trim>
+function foo() {
+    if (condition) {
+        function bar() { log('if'); }
+        bar();
+    } else {
+        function bar() { log('else'); }
+        bar();
+    }
+    typeof bar === 'undefined';
+}
+</code></pre>
+			</section>
+		    <section>
+				<h2>Block Scoped Variables</h2>
+                <p><span class="code key">const</span> should be your new <span class="code key">var</span></p>
+                <p>Use <span class="code key">let</span> only when the binding actually needs to change</p>
+                <p>Function declarations are block scoped too</p>
+			</section>
+
+            <section>
+                <h2>Default Function Parameters</h2>
+                <p>No more</p>
+                <pre><code class="hljs" data-trim>
+function createServer(host, port) {
+    host = host || 'localhost';
+    port = port || '1477';
+                </code></pre>
+                <p>but instead</p>
+                <pre><code class="hljs" data-trim>
+function createServer(host = 'localhost',
+    port = '1477') {
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h2>Object Literal Extensions</h2>
+                <p>Shorthand properties: instead of</p>
+                <pre><code class="hljs" data-trim>
+const obj = {
+    foo: foo,
+    bar: bar
+};
+                </code></pre>
+                <p>we can just write</p>
+                <pre><code class="hljs" data-trim>
+const obj = {
+    foo,
+    bar
+};
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Object Literal Extensions</h2>
+                <p>Shorthand methods:</p>
+                <pre><code class="hljs" data-trim>
+const obj = {
+    foo: function(arg) {
+        ...
+    }
+};
+                </code></pre>
+                <p>can be written</p>
+                <pre><code class="hljs" data-trim>
+const obj = {
+    foo(arg) {
+        ...
+    }
+};
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Object Literal Extensions</h2>
+                <p>Computed property names</p>
+                <pre><code class="hljs" data-trim>
+const alignment = 'top';
+
+const style = {
+    [alignment]: '0px',
+    ['margin-' + alignment]: '10px'
+};
+                </code></pre>
+            </section>
+
+
+
+            <section>
+                <h2>Destructuring Assignment</h2>
+                <p>Variable binding using pattern matching</p>
+                <pre><code class="hljs" data-trim>
+const pageX = ev.pageX;
+const pageY = ev.pageY;
+                </code></pre>
+                <p>becomes</p>
+                <pre><code class="hljs" data-trim>
+const { pageX: pageX, pageY: pageY } = ev;
+                </code></pre>
+<p>or, using shorthand</p>
+                <pre><code class="hljs" data-trim>
+const { pageX, pageY } = ev;
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Destructuring Assignment</h2>
+                <p>Pattern nesting is possible</p>
+                <pre><code class="hljs" data-trim>
+const {
+    firstName,
+    lastName,
+    employer: {
+        location
+    }
+} = employee;
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Destructuring Assignment</h2>
+                <p>Similarly for Arrays</p>
+                <pre><code class="hljs" data-trim>
+const first = arr[0];
+const second = arr[1];
+const fourth = arr[3];
+                </code></pre>
+                <p>becomes</p>
+                <pre><code class="hljs" data-trim>
+const [ first, second, , fourth ] = arr;
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>One Argument to Rule Them All</h3>
+                <p>Destructuring + default values = sweet, optional, named function parameters</p>
+                <pre><code class="hljs" data-trim>
+function convertPDF({
+    source,
+    destination,
+    orientation = 'portrait',
+    size = 'A4',
+    margin = '1in'
+}) {
+                </code></pre>
+                <pre><code class="hljs" data-trim>
+convertPDF({ source, destination,
+    size: 'Letter' });
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Rest and Spread Elements</h2>
+                <p>Capture remaining elements in an Array</p>
+                <pre><code class="hljs" data-trim>
+const head = arr[0];
+const tail = arr.slice(1);
+                </code></pre>
+                <p>becomes</p>
+                <pre><code class="hljs" data-trim>
+const [ head, ...tail ] = arr;
+                </code></pre>
+                <p>Or with function parameters</p>
+                <pre><code class="hljs" data-trim>
+function sendSpamMail(message, ...addresses) {
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Rest and Spread Elements</h2>
+                <p>Inverse also possible: spreading elements into array or parameter list</p>
+                <pre><code class="hljs" data-trim>
+const head = 1;
+const tail = [2, 3, 4];
+const arr = [head, ...tail];
+
+sendSpamMail(message, ...addresses);
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Rest and Spread Properties</h2>
+                <p>Stage 2 Proposal</p>
+                <pre><code class="hljs es2016" data-trim>
+function anonymize(user) {
+
+    const { ipAddr, ...rest } = user;
+
+    return {
+        ipAddr: 'SECRET!',
+        ...rest
+    };
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Template Literals</h2>
+                <p>New String literal syntax that uses <span class="code">`backticks`</span></p>
+                <p>Support for expression interpolation using <span class="code">${ ... }</span></p>
+                <pre><code class="hljs" data-trim>
+const fullName = `${firstName} ${lastName}`;
+
+const url = `${protocol}://${host}:${port}`;
+
+const greeting = `Hello ${user.getName()}!`;
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Template Literals</h2>
+                <p>Whitespace, including newlines, is allowed and preserved</p>
+                <pre><code class="hljs" data-trim>
+const html =
+`&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;${title}&lt;/title&gt;
+        &lt;style&gt;${css}&lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        ${content}
+    &lt;/body&gt;
+&lt;/html&gt;`;
+                </code></pre>
+            </section>
+<!--
+            <section>
+                <h2>Tagged Template Literals</h2>
+                <p>The built-in tag <span class="code">String.raw</span> prevents backslash from being interpreted as escape character</p>
+                <pre><code class="hljs" data-trim>
+const editor = String.raw`C:\usr\bin\vim`;
+                </code></pre>
+            </section>
+-->
+
+            <section>
+                <h2>Arrow functions</h2>
+                <p>Shorter way of defining functions</p>
+                <pre><code class="hljs" data-trim>
+cubes = numbers.map(function(x) {
+    return x * x * x;
+});
+
+cubes = numbers.map(x => x * x * x);
+</code></pre>
+            </section>
+
+            <section>
+                <h2>Arrow functions</h2>
+                <p>Bodies can be expressions or statement blocks</p>
+                <pre><code class="hljs" data-trim>
+var greet = function(title, name) {
+    return 'Hello ' + title + ' ' + name + '!';
+};
+
+const greet = (title, name) => {
+    return `Hello ${title} ${name}!`;
+};
+
+const greet = (title, name) =>
+    `Hello ${title} ${name}!`;
+                </code></pre>
+                <p></p>
+            </section>
+
+            <section>
+                <h2>Arrow functions</h2>
+                <p>Lexical <span class="code key" style="text-transform:none">this</span></p>
+                <pre><code class="hljs" data-trim>
+var self = this;
+this.on('start', function(e) {
+    self.handleStart(e);
+});
+</code></pre>
+<p>closing over <span class="code key">this</span> is not necessary</p>
+<pre><code class="hljs" data-trim>
+this.on('stop', e => this.handleStop(e));
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Arrow functions</h2>
+                <p>Since <span class="code key">this</span> is always lexically bound, <span class="code">call</span>
+                and <span class="code">apply</span> ignore their first argument when applied to arrow functions</p>
+                <p>No <span class="code" style="text-transform:none">arguments</span> object</p>
+                <p>...but it's easy to simulate</p>
+                <pre><code class="hljs" data-trim>
+(...args) => {
+    this.someMethod(...args)
+}
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h2>Built-in <span class="code" style="text-transform:none">Promise</span> object</h2>
+                <div class="dictionary">
+                    <div class="entry">
+                        <p><b>Promise</b> /ˈprɒm.ɪs/ <em>n.</em></p>
+                        <ol>
+                            <li><br>
+                                <ol style="list-style-type:lower-alpha">
+                                    <li>
+                                        A declaration assuring that one will do something [...]
+                                    </li>
+                                    <li>
+                                        Something promised.
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <br>
+                <p>Can be kept or broken!</p>
+            </section>
+
+            <section>
+                <h2>Built-in <span class="code" style="text-transform:none">Promise</span> object</h2>
+                <div class="dictionary">
+                    <div class="entry">
+                        <p><span class="code">Promise</span> /ˈprɒm.ɪs/ <em>ES2015 built-in</em></p>
+                        <ol>
+                            <li><br>
+                                An object representing the result of an asynchronous operation
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <br/>
+                <p>Can be resolved (with a value) or rejected (with a reason)</p>
+            </section>
+
+            <section data-background="img/callbacks.png" data-background-position="bottom">
+                <h2 style="color:#eee;text-align:right">Built-in <span class="code" style="text-transform:none;color:#000">Promise</span> object</h2>
+                <small style="position:absolute;right:0;top:500px;">From <a href="http://thecodebarbarian.com/2015/03/20/callback-hell-is-a-myth">
+                    http://thecodebarbarian.com/2015/03/20/callback-hell-is-a-myth</a></small>
+            </section>
+
+            <section>
+                <h2>Built-in <span class="code" style="text-transform:none">Promise</span> object</h2>
+                <p>Callback-style async chaining</p>
+                <pre><code class="hljs" data-trim>
+getUser(function(err, user){
+    if (err) {...}
+    getFriends(user, function(err, friends) {
+        if (err) {...}
+        getProfilePics(friends, function(err, pics) {
+            if (err) {...}
+            // use pics
+        });
+    });
+});
+                </code></pre>
+            </section>
+            <section>
+                <h2>Built-in <span class="code" style="text-transform:none">Promise</span> object</h2>
+                <p>Promises equivalent</p>
+                <pre><code class="hljs" data-trim>
+getUser()
+.then(getFriends)
+.then(getProfilePics)
+.catch(handleError)
+.then(/* use pics */)
+                </code></pre>
+            </section>
+
+            <section>
+                <h2><span class="code key">async</span> / <span class="code key">await</span></h2>
+                <p>Stage 3 Proposal!</p>
+                <p>New language construct that hide asynchronicity</p>
+                <p>Builds upon the build-in Promise support</p>
+            </section>
+
+            <section>
+                <h2><span class="code key">async</span> / <span class="code key">await</span></h2>
+                <pre><code class="hljs es2016" data-trim>
+async function tryFetch(url, maxTries) {
+    for (let i = 0; i < maxTries; ++i) {
+        try {
+            const data = await fetch(url);
+            return data;
+        } catch(error) {
+            // Handle error
+        }
+    }
+    throw new Error('Failed to fetch data');
+}
+                </code></pre>
+<p>.then/.catch becomes synch-style try/catch</p>
+            </section>
+
+            <section>
+                <h2>Classes</h2>
+                <p>Constructors, instance methods</p>
+                <pre><code class="hljs" data-trim>
+class Session {
+    constructor(shoppingCart) {
+        this.cart = cart;
+    }
+
+    getCartItems() {
+        return this.cart.items;
+    }
+}
+                </code></pre>
+            </section>
+            <section>
+                <h2>Classes</h2>
+                <p>Accessor properties, static methods</p>
+                <pre><code class="hljs" data-trim>
+class Session {
+    set cart(cart) {
+        this._cart = cart;
+    }
+    get cart() { return this._cart; }
+
+    static create() {
+        return new Session(new Cart());
+    }
+}
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h2>Classes</h2>
+                <p>Inheritance</p>
+                <pre><code class="hljs" data-trim>
+class AuthenticatedSession extends Session {
+    constructor(shoppingCart, userId) {
+        super(shoppingCart);
+        this._userId = userId;
+    }
+
+    get userId() {
+        return this._userId;
+    }
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Classes</h2>
+                <p>(Almost) only sugar over prototype-based OOP</p>
+                <pre><code class="hljs" data-trim>
+class Counter {
+    constructor(name) {
+    // becomes (named) function Counter
+    }
+
+    increment() {
+    // Ends up as property on Counter.prototype
+    }
+
+    static staticMethod() {
+    // Ends up as property on Counter
+    }
+}
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h2>Collections</h2>
+                <p><span class="code">Map</span> and <span class="code">Set</span></p>
+                <p>Native implementations of these common data structures</p>
+                <p>Map is keyed by objects, not strings</p>
+                <p>Use whereever Objects were abused before!</p>
+            </section>
+
+            <section>
+                <h2>Collections</h2>
+                <p>Weak Reference counterparts</p>
+                <p><em>Keys</em> are referenced weakly</p>
+                <p>Entries can be GC:d when key becomes unreachable</p>
+                <pre><code class="hljs" data-trim>
+const extraData = new WeakMap;
+
+const elem = document.getElementById('id1');
+
+extraData.set(elem, 'extra');
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Symbols</h2>
+                <h4>New primitive type</h4>
+                <blockquote class="spec" data-ref="6.1.5">
+                    The Symbol type is the set of all non-String values that may be used as the key of an Object property
+                </blockquote>
+                <p>Values are unique and immutable</p>
+                <p>Instances can have an optional description (String)</p>
+            </section>
+
+
+            <section>
+                <h2>Iterables and <span class="code key">for</span> .. <span class="code key">of</span></h2>
+                <p>New loop construct that targets <em>Iterable</em> objects</p>
+                <p>Lets objects dictate iteration over their elements</p>
+                <p>An object with a <span class="code">[Symbol.iterator]()</span> method is an iterable</p>
+                <p>Includes Array, Map, Set and String (but not Object!)</p>
+                <p>Largely deprecates <span class="code key">for</span> .. <span class="code key">in</span></p>
+            </section>
+
+            <section>
+                <h2>Iterators</h2>
+                <p>The Iterable interfaces</p>
+
+                <pre><code class="hljs" data-trim>
+interface IteratorResult {
+  done: boolean;
+  value: any;
+}
+interface Iterator {
+  next(): IteratorResult;
+}
+interface Iterable {
+  [Symbol.iterator](): Iterator
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Generator Functions</h2>
+                <p>Simplifies creating Iterables</p>
+                <p>Special type of function that returns Generator instances</p>
+                <pre><code class="hljs" data-trim>
+interface Generator extends Iterator {
+    next(value?: any): IteratorResult;
+    throw(exception: any);
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Generators</h2>
+                <p>Can be lazy and infinite</p>
+                <pre><code class="hljs" data-trim>
+function* naturalNumbers() {
+    let i = 0;
+    while (true) {
+        yield i++;
+    }
+}
+for (const i of naturalNumbers()) {
+    // Sit tight...
+}
+                </code></pre>
+            </section>
+
+			<section>
+				<h2>Modules</h2>
+                <p>ES2015 standardizes module <em>syntax</em></p>
+
+                <p>Module <em>loading</em> initially drafted for inclusion in ES2015</p>
+                <p>Now lives its own life at <a href="https://whatwg.github.io/loader/">https://whatwg.github.io/loader/</a></p>
+                <p>Using now possible with e.g. Webpack or transpilation to AMD or CommonJS</p>
+			</section>
+
+			<section>
+				<h2>Modules</h2>
+                <p>are plain JS files</p>
+                <p><span class="code key">export</span> values for others to use</p>
+                <p>can <span class="code key">import</span> values exported by other modules</p>
+                <p>Exports are either named (any number) or default (0 or 1)</p>
+			</section>
+
+			<section>
+				<h2>Modules</h2>
+                <p>Each module may have at most one default export</p>
+                <pre><p class="filename">counter.js</p><code class="hljs" data-trim>
+class Counter { ... }
+
+export default Counter;
+				</code></pre>
+                <pre><p class="filename">main.js</p><code class="hljs" data-trim>
+import Counter from './counter';
+
+const aCounter = new Counter;
+				</code></pre>
+			</section>
+
+				<section>
+					<h2>Modules</h2>
+                    <p>And any number of named exports</p>
+                    <pre><p class="filename">utils.js</p><code class="hljs" data-trim>
+export function foo() {...}
+export function bar() {...}
+export class FooBar {...}
+					</code></pre>
+                    <pre><p class="filename">main.js</p><code class="hljs" data-trim>
+import {foo, bar, FooBar} from './utils';
+
+foo();
+bar();
+new FooBar().method();
+					</code></pre>
+				</section>
+
+
+                <section>
+					<h2>And there's a lot more</h2>
+                    <p><a href="https://github.com/lukehoban/es6features">https://github.com/lukehoban/es6features</a></p>
+                    <p><a href="http://es6-features.org/">http://es6-features.org/</a></p>
+                    <p>See current proposals at <a href="https://github.com/tc39/ecma262">https://github.com/tc39/ecma262</a></p>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+			    center: false,
+                slideNumber: true,
+                height: '100%',
+                width: '100%',
+				transition: 'slide',
+                transitionSpeed: 'fast',
+
+				dependencies: [
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() {
+                        return !!document.querySelector( 'pre code' );
+                    }, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,195 @@
+/**
+ * White theme for reveal.js. This is the opposite of the 'black' theme.
+ *
+ * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import url(../../lib/font/source-sans-pro/source-sans-pro.css);
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #fff;
+
+$mainColor: #222;
+$headingColor: #222;
+
+$mainFontSize: 38px;
+$mainFont: 'Source Sans Pro', Helvetica, sans-serif;
+$headingFont: 'Source Sans Pro', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$linkColor: #2a76dd;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+section.has-dark-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: #fff;
+	}
+}
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+.reveal {
+
+    .slides {
+        text-align: left;
+    }
+
+    .awesome {
+        font-family: 'Rock Salt';
+        text-align: center;
+        transform: translateY(-400px) rotateZ(-5deg);
+    }
+
+    .dictionary {
+        margin: 2em 0 0 2em;
+        padding: 0 1em;
+    }
+
+    pre {
+        box-shadow: none;
+        font-size: 0.85em;
+        width: 95%;
+        border-left: 5px solid #ddd;
+
+        code {
+            color: #229;
+            font-family: monospace;
+            padding-left: 1em;
+            text-transform: none;
+        }
+
+        p.filename {
+            background-color: #ddd;
+            padding: 0.3em 1em;
+            margin: 0;
+        }
+    }
+
+    .code {
+        padding: 0 10px;
+        border-radius: 0.2em;
+        background-color: #f8f8f8;
+
+        &.key {
+            color: #0086b3;
+            font-weight: bold;
+        }
+    }
+
+    blockquote.spec {
+
+        &::before {
+            content: '§ ' attr(data-ref);
+            color: #555;
+            background-color: #ededed;
+            height: 100%;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        box-shadow: none;
+        background-color: #f8f8f8;
+    }
+
+    .code {
+        font-family: monospace;
+        text-transform: none;
+    }
+
+    .flexcontainer {
+        display: flex;
+
+        .flexitem {
+            justify-content: space-around;
+            width: 48%;
+        }
+    }
+
+    section {
+
+        &.center {
+            text-align: center;
+        }
+
+        footer {
+            text-align: right;
+
+            .github {
+                background-image: url(../../img/github.png);
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: left;
+                padding-left: 32px;
+            }
+        }
+
+        img {
+            border: none;
+            box-shadow: none;
+        }
+
+        .centered {
+            text-align: center;
+        }
+    }
+}
+
+
+/*
+.reveal .slide-number {
+  color: #2a76dd; }
+
+
+.reveal .slide-info {
+    position:absolute;
+    top:0;
+    right:0;
+    font-size: 0.5em;
+}
+
+.reveal .slide-info ul,
+.reveal .slide-info ul li {
+    list-style-type: none;
+}
+
+.reveal .slide-info ul li {
+    display: inline-block;
+    margin-left: 1em;
+}
+
+.reveal .slide-info ul li::before {
+    display: inline-block;
+    width: 1em;
+    border:2px solid #888;
+    border-radius: 0.3em;
+    height:1em;
+    color: green;
+    content: ' ';
+    vertical-align: text-top;
+    margin-right: 0.1em;
+}
+
+.reveal .slide-info ul li.check::before {
+    content: '✔';
+}
+*/
